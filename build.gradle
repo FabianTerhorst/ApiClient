@@ -1,0 +1,36 @@
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha9'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'io.realm:realm-gradle-plugin:0.88.0-SNAPSHOT'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.4'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+        maven {
+            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.10'
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
