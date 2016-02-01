@@ -5,6 +5,7 @@ A easy to use api client that combines the power of Retrofit, Realm, Gson, Rxjav
 
 Create your Api Class
 
+```
 public class Twitter extends ApiClient<TwitterApi> implements TwitterApi {
 
     public Twitter(Realm realm, String apiKey) {
@@ -15,6 +16,7 @@ public class Twitter extends ApiClient<TwitterApi> implements TwitterApi {
         init(new Twitter(realm, apiKey));
     }
 }
+```
 
 ####Second Step
 
