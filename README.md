@@ -15,6 +15,18 @@ public class Twitter extends ApiClient<TwitterApi> implements TwitterApi {
     public static void init(Realm realm, String apiKey) {
         init(new Twitter(realm, apiKey));
     }
+
+    @Override
+    public Observable<List<Character>> getTweets() {
+    	//Here you can define the tablename for realm and the fieldname if needed to sort the tweets with
+        return getApiObservable(getApi().getTweets(), Tweet.class, "name");
+    }
+
+    @Override
+    public Observable<List<Character>> getComments(ArrayList<Integer> ids) {
+    	//You can also get results only for specific ids
+        return getApiObservable(getApi().getComments(), Comment.class, "id", ids);
+    }
 }
 ```
 
@@ -27,6 +39,9 @@ public interface TwitterApi {
 	
 	@GET("tweets")
 	Observable<List<Tweet>> getTweets();
+
+	@GET("comments")
+	Observable<List<Tweet>> getComments(@Query("id") ArrayList<Integer> ids);
 }
 ```
 
