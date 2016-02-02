@@ -1,5 +1,5 @@
 # ApiClient
-A easy to use api client that combines the power of Retrofit, Realm, Gson, Rxjava and Retrolambda in a library
+A easy to use api client that combines the power of Retrofit, Realm, Gson, Rxjava and Retrolambda in a library for Java and Android
 
 #####Add to build.gradle
 
