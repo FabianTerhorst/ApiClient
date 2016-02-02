@@ -76,3 +76,19 @@ TwitterApi twitter = Twitter.getInstance();
 
 twitter.getTweets().subscribe(tweets-> System.out.println(tweets));
 ```
+
+###FAQ
+
+RealmList doesn´t support null objects. How can i ignore null object inside the response json?
+
+You can override the gson builder inside your api class and add custom deserializer adapters to avoid adding null objects.
+
+```
+@Override
+public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
+    registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyFirstObject>>() {}, MyFirstObject.class)
+        .registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MySecondObject>>() {}, MySecondObject.class)
+        .registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyThirdObject>>() {}, MyThirdObject.class);
+        return gsonBuilder;
+}
+```
