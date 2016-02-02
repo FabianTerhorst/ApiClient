@@ -11,6 +11,8 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'io.realm:realm-gradle-plugin:0.88.0-SNAPSHOT'
         classpath 'me.tatarka:gradle-retrolambda:3.2.4'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     }
 }
 
