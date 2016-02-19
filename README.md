@@ -119,7 +119,7 @@ Twitter.getInstance().setApiKey("9876543210");
 You can override the getHttpUrlBuilder() method from the api client.
 
 ```
- @Override
+@Override
 public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
     return super.getHttpUrlBuilder(builder).addQueryParameter("lang", Locale.getDefault().getLanguage());
 }
