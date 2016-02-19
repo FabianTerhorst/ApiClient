@@ -84,7 +84,7 @@ twitter.getTweets().subscribe(tweets-> System.out.println(tweets));
 
 You can use the ApiClient component module to get access to RxActivity and RxFragment
 
-In your Activity you have to get the Singleton with the Activity lifecylce. Your activity has to extend RxActivity.
+In your Activity you have to get the Singleton with the Activity lifecycle. Your activity has to extend RxActivity.
 
 ```
 Twitter twitter = Twitter.getInstance(bindToLifecycle());
