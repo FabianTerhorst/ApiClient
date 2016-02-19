@@ -114,6 +114,17 @@ You can use the setApiKey method.
 Twitter.getInstance().setApiKey("9876543210");
 ```
 
+#####How to add other query parameter
+
+You can override the getHttpUrlBuilder() method from the api client.
+
+```
+ @Override
+public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
+    return super.getHttpUrlBuilder(builder).addQueryParameter("lang", Locale.getDefault().getLanguage());
+}
+```
+
 ### License
     Copyright 2016 Fabian Terhorst
 
