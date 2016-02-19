@@ -82,7 +82,7 @@ twitter.getTweets().subscribe(tweets-> System.out.println(tweets));
 
 How to handle Android Activity lifecycle
 
-#You can use the ApiClient component module to get access to RxActivity and RxFragment
+#####You can use the ApiClient component module to get access to RxActivity and RxFragment
 
 In your Activity you have to get the Singleton with the Activity lifecylce
 
@@ -92,7 +92,7 @@ Twitter twitter = Twitter.getInstance(bindToLifecycle());
 
 And thats everythink you have to do to prevent memory leaks.
 
-#RealmList doesn´t support null objects. How can i ignore null object inside the response json?
+#####RealmList doesn´t support null objects. How can i ignore null object inside the response json?
 
 You can override the gson builder inside your api class and add custom deserializer adapters to avoid adding null objects.
 
