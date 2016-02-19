@@ -96,14 +96,6 @@ And thats everythink you have to do to prevent memory leaks.
 
 You can override the gson builder inside your api class and add custom deserializer adapters to avoid adding null objects.
 
-#####How to change the api key from everywhere?
-
-You can use the setApiKey method.
-
-```
-Twitter.getInstance().setApiKey("9876543210");
-```
-
 ```
 @Override
 public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
@@ -112,6 +104,14 @@ public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
         .registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyThirdObject>>() {}, MyThirdObject.class);
         return gsonBuilder;
 }
+```
+
+#####How to change the api key from everywhere?
+
+You can use the setApiKey method.
+
+```
+Twitter.getInstance().setApiKey("9876543210");
 ```
 
 ### License
