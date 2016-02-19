@@ -15,6 +15,7 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 
 public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
 
@@ -76,6 +77,13 @@ public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
      */
     @SuppressWarnings("unchecked")
     public static <E extends ApiClient> E getInstance() {
+        mInstance.setLifecycle(null);
+        return (E) mInstance;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <E extends ApiClient> E getInstance(Observable.Transformer<?, ?> lifecycle) {
+        mInstance.setLifecycle(lifecycle);
         return (E) mInstance;
     }
 
