@@ -108,15 +108,15 @@ public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
 
 #####How to change the api key from everywhere?
 
-You can use the setApiKey method.
+You can use the ```setApiKey``` method.
 
 ```
 Twitter.getInstance().setApiKey("9876543210");
 ```
 
-#####How to add other query parameter
+#####How to add other query parameters?
 
-You can override the getHttpUrlBuilder() method from the api client.
+You can override the ```getHttpUrlBuilder(HttpUrl.Builder builder)``` method from the api client.
 
 ```
 @Override
