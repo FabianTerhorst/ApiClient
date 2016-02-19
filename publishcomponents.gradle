@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 def siteUrl = 'https://github.com/FabianTerhorst/ApiClient'
 def gitUrl = 'https://github.com/FabianTerhorst/ApiClient.git'
 
-version = "0.2"
+version = "0.1"
 group = "io.fabianterhorst"
 
 install {
@@ -16,7 +16,7 @@ install {
                 packaging 'aar'
 
                 // Add your description here
-                name 'Fast and easy to use Api Client'
+                name 'Components for the Api Client'
                 url siteUrl
 
                 // Set your license
@@ -68,7 +68,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "apiclient"
+        name = "apiclient-components"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ['Apache-2.0']

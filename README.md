@@ -4,7 +4,8 @@ A easy to use api client that combines the power of Retrofit, Realm, Gson, Rxjav
 #####Add to build.gradle
 
 ```
-compile 'io.fabianterhorst:apiclient:0.1'
+compile 'io.fabianterhorst:apiclient:0.2'
+compile 'io.fabianterhorst:apiclient-components:0.1'
 ```
 
 ####First Step
