@@ -32,7 +32,7 @@ public class ApiStorage implements IApiStorage {
 
     @Override
     public <Item extends RealmObject> RealmResults<Item> getItems(Class<Item> objectClass, String sortedFieldName) {
-        return getQuery(objectClass).findAllSorted(sortedFieldName);
+        return getQuery(objectClass).findAllSortedAsync(sortedFieldName);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ApiStorage implements IApiStorage {
         }
         query = query.equalTo(sortedFieldName, ids.get(ids.size() - 1));
 
-        return query.findAllSorted(sortedFieldName);
+        return query.findAllSortedAsync(sortedFieldName);
     }
 
     @Override
