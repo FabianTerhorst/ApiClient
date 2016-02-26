@@ -43,7 +43,7 @@ public class ApiObserver extends ApiStorage implements IApiObserver {
             return Observable.<List<Item>>create(subscriber -> {
                 realmObserver.subscribe(subscriber::onNext, subscriber::onError);
                 retrofitObserver.subscribe(this::setItems, subscriber::onError, subscriber::onCompleted);
-            }).compose(getLifecycle());
+            }).compose(applySchedulers()).compose(getLifecycle());
         } else
             return api.compose(applySchedulers()).compose(getLifecycle());
     }
