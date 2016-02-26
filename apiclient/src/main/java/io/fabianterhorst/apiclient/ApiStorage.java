@@ -48,6 +48,6 @@ public class ApiStorage implements IApiStorage {
 
     @Override
     public <Item extends RealmObject> void setItems(List<Item> items) {
-        mRealm.executeTransaction(realm -> realm.copyToRealmOrUpdate(items));
+        mRealm.executeTransactionAsync(realm -> realm.copyToRealmOrUpdate(items));
     }
 }
