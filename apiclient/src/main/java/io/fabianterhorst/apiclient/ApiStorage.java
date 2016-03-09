@@ -11,6 +11,10 @@ public class ApiStorage implements IApiStorage {
 
     private Realm mRealm;
 
+    public ApiStorage(){
+        this.mRealm = Realm.getDefaultInstance();
+    }
+
     public ApiStorage(Realm realm){
         this.mRealm = realm;
     }

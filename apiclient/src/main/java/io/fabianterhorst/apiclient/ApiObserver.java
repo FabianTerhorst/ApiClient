@@ -13,6 +13,9 @@ public class ApiObserver extends ApiStorage implements IApiObserver {
 
     private Observable.Transformer mLifecycle;
 
+    public ApiObserver() {
+    }
+
     public ApiObserver(Realm realm) {
         super(realm);
     }
@@ -43,9 +46,9 @@ public class ApiObserver extends ApiStorage implements IApiObserver {
             return Observable.<List<Item>>create(subscriber -> {
                 realmObserver.subscribe(subscriber::onNext, subscriber::onError);
                 retrofitObserver.subscribe(this::setItems, subscriber::onError, subscriber::onCompleted);
-            }).compose(applySchedulers()).compose(getLifecycle());
+            }).compose(getLifecycle());
         } else
-            return api.compose(applySchedulers()).compose(getLifecycle());
+            return api;
     }
 
     @Override
