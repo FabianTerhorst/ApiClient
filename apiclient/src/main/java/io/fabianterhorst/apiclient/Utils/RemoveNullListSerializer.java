@@ -1,4 +1,4 @@
-package io.fabianterhorst.apiclient;
+package io.fabianterhorst.apiclient.Utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
