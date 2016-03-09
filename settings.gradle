@@ -1,1 +1,1 @@
-include ':apiclient', ':apiclient-components'
+include ':apiclient', ':apiclient-components', ':apiclient-accountmanager'
