@@ -3,10 +3,8 @@ package io.fabianterhorst.apiclient;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -21,28 +19,31 @@ public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
 
     private Api mApi;
 
-    private Class<Api> mClazz;
+    private final Class<Api> mClazz;
 
     private String mApiKey;
 
-    private String mApiKeyParameter;
-
-    private String mApiBaseUrl;
+    private final String mApiBaseUrl;
 
     private static ApiClient mInstance;
 
     private final Interceptor API_KEY_INTERCEPTOR = chain -> {
         Request oldRequest = chain.request();
         HttpUrl httpUrl = getHttpUrlBuilder(oldRequest.url().newBuilder()).build();
-        Request.Builder builder = oldRequest.newBuilder();
+        Request.Builder builder = getRequestBuilder(oldRequest.newBuilder());
         builder.url(httpUrl);
         return chain.proceed(builder.build());
     };
 
-    public ApiClient(Realm realm, String apiKeyParameter, String apiKey, Class<Api> clazz, String apiBaseUrl) {
+    public ApiClient(String apiKey, Class<Api> clazz, String apiBaseUrl) {
+        this.mApiKey = apiKey;
+        this.mClazz = clazz;
+        this.mApiBaseUrl = apiBaseUrl;
+    }
+
+    public ApiClient(Realm realm, String apiKey, Class<Api> clazz, String apiBaseUrl) {
         super(realm);
         this.mApiKey = apiKey;
-        this.mApiKeyParameter = apiKeyParameter;
         this.mClazz = clazz;
         this.mApiBaseUrl = apiBaseUrl;
     }
@@ -59,6 +60,13 @@ public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
     }
 
     /**
+     * Get the api key
+     */
+    public String getApiKey(){
+        return mApiKey;
+    }
+
+    /**
      * Getting the UrlBuilder for the OkHttp interceptor
      * Here you can add your own implementation to authenticate your application
      *
@@ -67,7 +75,19 @@ public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
      */
     @Override
     public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
-        return builder.addQueryParameter(mApiKeyParameter, mApiKey);
+        return builder;
+    }
+
+    /**
+     * Getting the RequestBuilder for the OkHttp interceptor
+     * Here you can add your own implementation to authenticate your application
+     *
+     * @param builder http request builder
+     * @return the modified http request builder for the interceptor
+     */
+    @Override
+    public Request.Builder getRequestBuilder(Request.Builder builder) {
+        return builder;
     }
 
     /**
@@ -81,6 +101,14 @@ public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
         return (E) mInstance;
     }
 
+    /**
+     *
+     * Get the current api instance with the given lifecycle. You have to call init() before
+     *
+     * @param lifecycle lifecycle from the activity or the fragment
+     * @param <E> api client type
+     * @return the current api instance
+     */
     @SuppressWarnings("unchecked")
     public static <E extends ApiClient> E getInstance(Observable.Transformer<?, ?> lifecycle) {
         mInstance.setLifecycle(lifecycle);
@@ -133,21 +161,5 @@ public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
                     .create(mClazz);
         }
         return mApi;
-    }
-
-    /**
-     * Add NullListSerializer to the Gson Builder
-     * This allow the use of RealmList with Null Values from Json in Objects
-     *
-     * @param gsonBuilder gson builder
-     * @param typeToken type token
-     * @param item item for the serializer
-     * @param <Item> generic type from item
-     * @return the api client
-     */
-    @Override
-    public <Item extends RealmObject> ApiClient registerRemoveNullListSerializer(GsonBuilder gsonBuilder, TypeToken<RealmList<Item>> typeToken, Class<Item> item){
-        gsonBuilder.registerTypeAdapter(typeToken.getType(), new RemoveNullListSerializer<>(item));
-        return this;
     }
 }
