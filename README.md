@@ -4,7 +4,8 @@ A easy to use api client that combines the power of Retrofit, Realm, Gson, Rxjav
 #####Add to build.gradle
 
 ```
-compile 'io.fabianterhorst:apiclient:0.2'
+compile 'io.fabianterhorst:apiclient:0.3'
+compile 'io.fabianterhorst:apiclient-accountmanager:0.1'
 compile 'io.fabianterhorst:apiclient-components:0.1'
 ```
 
@@ -19,8 +20,8 @@ public class Twitter extends ApiClient<TwitterApi> implements TwitterApi {
         super(realm, TwitterApi.PARAM_API_KEY, apiKey, TwitterApi.class, TwitterApi.END_POINT);
     }
 
-    public static void init(Realm realm, String apiKey) {
-        init(new Twitter(realm, apiKey));
+    public static void init(String apiKey) {
+        init(new Twitter(apiKey));
     }
 
     @Override
@@ -62,8 +63,11 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Realm realm = Realm.getInstance(this);
-        Twitter.init(realm, "0123456789");
+        RealmConfiguration config = new RealmConfiguration.Builder(this)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+        Twitter.init("0123456789");
     }
 }
 ```
@@ -99,10 +103,10 @@ You can override the gson builder inside your api class and add custom deseriali
 ```
 @Override
 public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
-    registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyFirstObject>>() {}, MyFirstObject.class)
-        .registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MySecondObject>>() {}, MySecondObject.class)
-        .registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyThirdObject>>() {}, MyThirdObject.class);
-        return gsonBuilder;
+    GsonUtils.registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyFirstObject>>() {}, MyFirstObject.class);
+    GsonUtils.registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MySecondObject>>() {}, MySecondObject.class);
+    GsonUtils.registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyThirdObject>>() {}, MyThirdObject.class);
+    return gsonBuilder;
 }
 ```
 
@@ -121,7 +125,28 @@ You can override the ```getHttpUrlBuilder(HttpUrl.Builder builder)``` method fro
 ```
 @Override
 public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
-    return super.getHttpUrlBuilder(builder).addQueryParameter("lang", Locale.getDefault().getLanguage());
+    return addQueryParameter("lang", Locale.getDefault().getLanguage());
+}
+```
+
+#####How to use a authentication
+
+The easiest way is to use the AuthUtils to add a authentication via the request builder for post parameters and headers or the http url builder for query parameter
+
+myurl.com/api
+```
+@Override
+public Request.Builder getRequestBuilder(Request.Builder builder) {
+    return AuthUtils.addDefaultAuthentication(builder, getApiKey());
+}
+```
+
+myurl.com/api?apiKey=012345
+```
+@Override
+public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
+    AuthUtils.addDefaultAuthentication(builder, "apiKey", getApiKey());
+        return builder.addQueryParameter("lang", Locale.getDefault().getLanguage());
 }
 ```
 
