@@ -7,11 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_ACCOUNT_NAME;
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_ACCOUNT_TYPE;
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_AUTH_TYPE;
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_IS_ADDING_NEW_ACCOUNT;
-
 public class ApiAuthenticatorActivity extends AppCompatActivity {
 
     private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
@@ -35,9 +30,9 @@ public class ApiAuthenticatorActivity extends AppCompatActivity {
         }
 
         mAccountManager = AccountManager.get(getBaseContext());
-        mAccountType = getIntent().getStringExtra(ARG_ACCOUNT_TYPE);
-        mAccountName = getIntent().getStringExtra(ARG_ACCOUNT_NAME);
-        mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TYPE);
+        mAccountType = getIntent().getStringExtra(AccountManager.KEY_ACCOUNT_TYPE);
+        mAccountName = getIntent().getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        mAuthTokenType = getIntent().getStringExtra(AccountManager.AUTHENTICATOR_ATTRIBUTES_NAME);
     }
 
     public void login(){
@@ -49,7 +44,6 @@ public class ApiAuthenticatorActivity extends AppCompatActivity {
         Intent res = new Intent();
         res.putExtras(data);
         finishLogin(res);
-        //setResult(RESULT_OK, res);
     }
 
     private void finishLogin(Intent intent) {
@@ -58,7 +52,7 @@ public class ApiAuthenticatorActivity extends AppCompatActivity {
         String accountPassword = intent.getStringExtra(AccountManager.KEY_PASSWORD);
         Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
 
-        if (getIntent().getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false)) {
+        if (getIntent().getBooleanExtra(AccountManager.ACTION_AUTHENTICATOR_INTENT, false)) {
             String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
             mAccountManager.addAccountExplicitly(account, accountPassword, null);
             mAccountManager.setAuthToken(account, mAuthTokenType, authToken);
@@ -103,7 +97,7 @@ public class ApiAuthenticatorActivity extends AppCompatActivity {
     }
 
     public boolean addNewAccount(){
-        return getIntent().getBooleanExtra(ARG_IS_ADDING_NEW_ACCOUNT, false);
+        return getIntent().getBooleanExtra(AccountManager.ACTION_AUTHENTICATOR_INTENT, false);
     }
 
     public void setAuthToken(String authToken) {

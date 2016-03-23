@@ -11,10 +11,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_ACCOUNT_NAME;
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_ACCOUNT_TYPE;
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_AUTH_TYPE;
-import static io.fabianterhorst.apiclient.accountmanager.Constants.ARG_IS_ADDING_NEW_ACCOUNT;
 
 public class ApiAuthenticator extends AbstractAccountAuthenticator {
 
@@ -35,9 +31,9 @@ public class ApiAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
         final Intent intent = new Intent(mContext, mAuthActivityClass);
-        intent.putExtra(ARG_ACCOUNT_TYPE, accountType);
-        intent.putExtra(ARG_AUTH_TYPE, authTokenType);
-        intent.putExtra(ARG_IS_ADDING_NEW_ACCOUNT, true);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+        intent.putExtra(AccountManager.AUTHENTICATOR_ATTRIBUTES_NAME, authTokenType);
+        intent.putExtra(AccountManager.ACTION_AUTHENTICATOR_INTENT, true);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 
         final Bundle bundle = new Bundle();
@@ -69,9 +65,9 @@ public class ApiAuthenticator extends AbstractAccountAuthenticator {
         // an intent to display our AuthenticatorActivity.
         final Intent intent = new Intent(mContext, mAuthActivityClass);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-        intent.putExtra(ARG_ACCOUNT_TYPE, account.type);
-        intent.putExtra(ARG_AUTH_TYPE, authTokenType);
-        intent.putExtra(ARG_ACCOUNT_NAME, account.name);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+        intent.putExtra(AccountManager.AUTHENTICATOR_ATTRIBUTES_NAME, authTokenType);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, account.name);
         final Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
         return bundle;
