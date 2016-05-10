@@ -35,6 +35,11 @@ public class ApiClient<Api> extends ApiObserver implements IApi<Api> {
         return chain.proceed(builder.build());
     };
 
+    public ApiClient(Class<Api> clazz, String apiBaseUrl) {
+        this.mClazz = clazz;
+        this.mApiBaseUrl = apiBaseUrl;
+    }
+
     public ApiClient(String apiKey, Class<Api> clazz, String apiBaseUrl) {
         this.mApiKey = apiKey;
         this.mClazz = clazz;
