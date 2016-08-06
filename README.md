@@ -3,8 +3,8 @@ A easy to use api client that combines the power of Retrofit, Realm, Gson, Rxjav
 
 #####Add to build.gradle
 
-```
-compile 'io.fabianterhorst:apiclient:0.3'
+```groovy
+compile 'io.fabianterhorst:apiclient:0.4'
 compile 'io.fabianterhorst:apiclient-accountmanager:0.1'
 compile 'io.fabianterhorst:apiclient-components:0.1'
 ```
@@ -13,7 +13,7 @@ compile 'io.fabianterhorst:apiclient-components:0.1'
 
 Create your Api Class
 
-```
+```java
 public class Twitter extends ApiClient<TwitterApi> implements TwitterApi {
 
     public Twitter(Realm realm, String apiKey) {
@@ -42,7 +42,7 @@ public class Twitter extends ApiClient<TwitterApi> implements TwitterApi {
 
 Create your Api Interface (The Retrofit way)
 
-```
+```java
 public interface TwitterApi {
 	
 	@GET("tweets")
@@ -57,7 +57,7 @@ public interface TwitterApi {
 
 Initiate the Singleton in the Application onCreate
 
-```
+```java
 public class MyApplication extends Application {
 
     @Override
@@ -76,7 +76,7 @@ public class MyApplication extends Application {
 
 Use it and have fun. The library is handling the saving, the loading and the refreshing for you.
 
-```
+```java
 Twitter twitter = Twitter.getInstance();
 
 twitter.getTweets().subscribe(tweets-> System.out.println(tweets));
@@ -90,7 +90,7 @@ You can use the ApiClient component module to get access to RxActivity and RxFra
 
 In your Activity you have to get the Singleton with the Activity lifecycle. Your activity has to extend RxActivity.
 
-```
+```java
 Twitter twitter = Twitter.getInstance(bindToLifecycle());
 ```
 
@@ -100,7 +100,7 @@ And thats everythink you have to do to prevent memory leaks.
 
 You can override the gson builder inside your api class and add custom deserializer adapters to avoid adding null objects.
 
-```
+```java
 @Override
 public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
     GsonUtils.registerRemoveNullListSerializer(gsonBuilder, new TypeToken<RealmList<MyFirstObject>>() {}, MyFirstObject.class);
@@ -114,7 +114,7 @@ public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
 
 You can use the ```setApiKey``` method.
 
-```
+```java
 Twitter.getInstance().setApiKey("9876543210");
 ```
 
@@ -122,7 +122,7 @@ Twitter.getInstance().setApiKey("9876543210");
 
 You can override the ```getHttpUrlBuilder(HttpUrl.Builder builder)``` method from the api client.
 
-```
+```java
 @Override
 public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
     return addQueryParameter("lang", Locale.getDefault().getLanguage());
@@ -134,7 +134,7 @@ public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
 The easiest way is to use the AuthUtils to add a authentication via the request builder for post parameters and headers or the http url builder for query parameter
 
 myurl.com/api
-```
+```java
 @Override
 public Request.Builder getRequestBuilder(Request.Builder builder) {
     return AuthUtils.addDefaultAuthentication(builder, getApiKey());
@@ -142,7 +142,7 @@ public Request.Builder getRequestBuilder(Request.Builder builder) {
 ```
 
 myurl.com/api?apiKey=012345
-```
+```java
 @Override
 public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
     AuthUtils.addDefaultAuthentication(builder, "apiKey", getApiKey());
