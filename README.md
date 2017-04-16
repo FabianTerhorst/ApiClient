@@ -1,7 +1,7 @@
 # ApiClient
 A easy to use api client that combines the power of Retrofit, Realm, Gson, Rxjava and Retrolambda in a library for Java and Android
 
-#####Add to build.gradle
+##### Add to build.gradle
 
 ```groovy
 compile 'io.fabianterhorst:apiclient:0.4'
@@ -9,7 +9,7 @@ compile 'io.fabianterhorst:apiclient-accountmanager:0.1'
 compile 'io.fabianterhorst:apiclient-components:0.1'
 ```
 
-####First Step
+#### First Step
 
 Create your Api Class
 
@@ -38,7 +38,7 @@ public class Twitter extends ApiClient<TwitterApi> implements TwitterApi {
 }
 ```
 
-####Second Step
+#### Second Step
 
 Create your Api Interface (The Retrofit way)
 
@@ -53,7 +53,7 @@ public interface TwitterApi {
 }
 ```
 
-####Third Step
+#### Third Step
 
 Initiate the Singleton in the Application onCreate
 
@@ -72,7 +72,7 @@ public class MyApplication extends Application {
 }
 ```
 
-####Fourth Step
+#### Fourth Step
 
 Use it and have fun. The library is handling the saving, the loading and the refreshing for you.
 
@@ -82,9 +82,9 @@ Twitter twitter = Twitter.getInstance();
 twitter.getTweets().subscribe(tweets-> System.out.println(tweets));
 ```
 
-###FAQ
+### FAQ
 
-#####How to handle Android Activity lifecycle
+##### How to handle Android Activity lifecycle
 
 You can use the ApiClient component module to get access to RxActivity and RxFragment
 
@@ -96,7 +96,7 @@ Twitter twitter = Twitter.getInstance(bindToLifecycle());
 
 And thats everythink you have to do to prevent memory leaks.
 
-#####RealmList doesn´t support null objects. How can i ignore null object inside the response json?
+##### RealmList doesn´t support null objects. How can i ignore null object inside the response json?
 
 You can override the gson builder inside your api class and add custom deserializer adapters to avoid adding null objects.
 
@@ -110,7 +110,7 @@ public GsonBuilder getGsonBuilder(GsonBuilder gsonBuilder) {
 }
 ```
 
-#####How to change the api key from everywhere?
+##### How to change the api key from everywhere?
 
 You can use the ```setApiKey``` method.
 
@@ -118,7 +118,7 @@ You can use the ```setApiKey``` method.
 Twitter.getInstance().setApiKey("9876543210");
 ```
 
-#####How to add other query parameters?
+##### How to add other query parameters?
 
 You can override the ```getHttpUrlBuilder(HttpUrl.Builder builder)``` method from the api client.
 
@@ -129,7 +129,7 @@ public HttpUrl.Builder getHttpUrlBuilder(HttpUrl.Builder builder) {
 }
 ```
 
-#####How to use a authentication
+##### How to use a authentication
 
 The easiest way is to use the AuthUtils to add a authentication via the request builder for post parameters and headers or the http url builder for query parameter
 
