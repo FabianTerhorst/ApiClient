@@ -1,13 +1,80 @@
 //apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
 
 def siteUrl = 'https://github.com/FabianTerhorst/ApiClient'
 def gitUrl = 'https://github.com/FabianTerhorst/ApiClient.git'
 
-version = "0.4"
+version = "0.4.4"
 group = "io.fabianterhorst"
 
-/*install {
+/*task createPom << {
+    pom {
+        project {
+            groupId group
+            artifactId 'apiclient'
+            version version
+
+            inceptionYear '2016'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }.writeTo("pom.xml")
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}*/
+
+
+/*task createPom << {
+    //repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            //noinspection GroovyAssignabilityCheck
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                name 'Fast and easy to use Api Client'
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'fabianterhorst'
+                        name 'Fabian Terhorst'
+                        email 'fabian.terhorst@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+     //   }
+    }.writeTo("pom.xml")
+}*/
+install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
         pom {
@@ -41,7 +108,7 @@ group = "io.fabianterhorst"
             }
         }
     }
-}*/
+}
 
 
 task sourcesJar(type: Jar) {
